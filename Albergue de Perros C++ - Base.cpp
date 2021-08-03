@@ -200,24 +200,24 @@ void ingresar(){
 
 void listar(){
 	limpia();
-
-	cout << "\n\t//// LISTA DE MASCOTAS O^O ////"<<endl;
-
 	for (int i = 0; i < N ; i++)
 	{	
-	  
-		if (pe[i].lleno == 1) 
+	   if (pe[i].lleno == 1) 
 		{
-			cout<<"\n\n  Codigo:     "<<pe[i].codigo;
-			cout<<"\n  Nombre:     "<<pe[i].nombre;
-			cout<<"\n  Fecha ing:  "<<pe[i].fecha;
-			cout<<"\n  Raza:       "<<pe[i].raza;
-			cout<<"\n  Edad:       "<<pe[i].edad;
-			cout<<"\n  ----------------------"<<endl;
+			cout << "\n\tLISTA DE MASCOTAS O^O"<<endl;
+			cout << "\n\nCodigo:     " << pe[i].codigo;
+			cout << "\nNombre:     " << pe[i].nombre;
+			cout << "\nFecha ing:  " << pe[i].fecha;
+			cout<<  "\nEspecie:    " << pe[i].especie;
+			cout << "\nSexo: 	    " << pe[i].sexo;
+			cout << "\nRaza:       " << pe[i].raza;
+			cout << "\nEdad:       " << pe[i].edad;
+					 
+
 		}
 	}
 	
-	cout << "\nPulse una tecla para ir al menu principal..";
+	cout << "\nPulse una tecla para ir al menu principal ...";
 	getch();	
 	limpia();
 	menu();
@@ -229,60 +229,66 @@ void eliminar(){
 	char op,op2;
 	
 	limpia();
-	cout << "\tELIMINAR PERRO"<<endl;
-	cout << "\nIngrese codigo: ";
+	cout << "\tDESCARTAR MASCOTA"<<endl;
+	cout << "\nIngrese codigo:   ";
 	fflush(stdin);
 	fgets(cod,N,stdin);
 	cambio(cod);
 	
-	for (int i = 0; i < N && aux == 0; i++){
-		if(strcmp(cod,pe[i].codigo)	== 0){
+	for (int i = 0; i < N && aux == 0; i++)
+	{
+		if(strcmp(cod,pe[i].codigo)	== 0)
+		{
 			aux = 1;
-
 			cout << "\nNombre:           " << pe[i].nombre;
 			cout << "\nFecha de ingreso: " << pe[i].fecha;
+			cout << "\nEspecie:          " << pe[i].especie;
+			cout << "\nSexo: 		  " << pe[i].sexo;
 			cout << "\nRaza:             " << pe[i].raza;
 			cout << "\nEdad:             " << pe[i].edad;
-
 			do{
-				cout << "\n\nSeguro que desea eliminar? Pulse una tecla: <1> Si / <2> No ";
+			cout << "\n\nEsta seguro que desea eliminar esta informacion de manera permanente? Pulse una tecla: <1> Si / <2> No  ";
 				op = getch();	
 			}while (op!='1' && op!='2');
 			
-			if (op=='1'){
+			if (op=='1')
+			{
 				pe[i].lleno = 0;
 				cout << "\n\nEliminado correctamente.";
+				cout << "                                                              ";
 			}
-			if (op=='2'){
-				cout << "\n\nCodigo no eliminado. Presione una tecla para ir al menu principal..";
+			if (op=='2')
+			{
+				cout << "\n\nCodigo no eliminado. Presione una tecla para ir al menu principal ...";
 				getch();
 				limpia();
 				menu();	
 			}
 		}
+		
 	}
 	
-	if (aux == 1){
-		cout << "\n\nPresione una tecla para volver al menu principal";
+	if (aux ==1)
+	{
+		cout << "\n\nPresione una tecla para volver al menu principal ...";
 		getch();	
 		limpia();
 		menu();
 	}
-			
-	else if (aux == 0){
+					
+	else{
+ 	if (aux==0){
 		cout << "\n\n¡Codigo no encontrado!";
-		cout << "\n\nPresione una tecla para volver al menu principal..";
+		cout << "\n\nPresione una tecla para volver al menu principal ...";
 		getch();
 		limpia();
 		menu();
-	}
-	
-	cout << "\n\nPulse una tecla para ir al menu principal..";
+	}}
+	cout << "\n\nPulse una tecla para ir al menu principal ...";
 	getch();	
 	limpia();
 	menu();
 }
-
 
 
 void adopcion(){
