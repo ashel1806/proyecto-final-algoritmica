@@ -9,6 +9,7 @@
 using namespace std;
 
 //Prototipo de funciones a utilizar
+void cuadro();
 void cambio(char a[]);
 void ingresar();
 void vacio();
@@ -40,11 +41,7 @@ struct gato{
 
 //FUNCION PRINCIPAL MAIN: ES LA PRIMER FUNCI�N QUE EJECUTA EL PROGRAMA
 int main(){
-	cout<<"\n\t\t/////////////////////////////////////////////"<<endl;
-	cout<<"\t\t////                                     ////"<<endl;
-	cout<<"\t\t////          F I S I    P E T S         ////"<<endl;
-	cout<<"\t\t////                                     ////"<<endl;
-	cout<<"\t\t/////////////////////////////////////////////";
+	cuadro();
 	vacio();
 	menu();
 	getch();
@@ -55,6 +52,7 @@ int main(){
 void menu(){
 	char op,op2;
 	do{
+		cuadro();
 		cout << "\n\n  -- MENU PRINCIPAL --"<<endl;
 		cout << "\n  (1) Perros"<<endl;
 		cout << "  (2) Estado"<<endl;
@@ -363,6 +361,13 @@ void cambio(char a[]){
 	a[aux-1] = '\0';
 }
 
+void cuadro(){
+	cout<<"\n\t\t/////////////////////////////////////////////"<<endl;
+	cout<<"\t\t////                                     ////"<<endl;
+	cout<<"\t\t////          F I S I    P E T S         ////"<<endl;
+	cout<<"\t\t////                                     ////"<<endl;
+	cout<<"\t\t/////////////////////////////////////////////";
+}
 
 void limpia(){
 	system("CLS");
