@@ -45,7 +45,7 @@ int main(){
 void menu(){
 	char op,op2;
 	do{
-		cuadro();
+		// cuadro();
 		cout << "\n\n  -- MENU PRINCIPAL --"<<endl;
 		cout << "\n  (1) Perros"<<endl;
 		cout << "  (2) Estado"<<endl;
