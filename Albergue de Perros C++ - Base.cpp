@@ -207,29 +207,28 @@ void ingresar(){
 
 void listar(){
 	limpia();
-
-	cout << "\n\t//// LISTA DE MASCOTAS O^O ////"<<endl;
-
 	for (int i = 0; i < N ; i++)
 	{	
-	  
-		if (pe[i].lleno == 1) 
+	   if (pe[i].lleno == 1) 
 		{
-			cout<<"\n\n  Codigo:     "<<pe[i].codigo;
-			cout<<"\n  Nombre:     "<<pe[i].nombre;
-			cout<<"\n  Fecha ing:  "<<pe[i].fecha;
-			cout<<"\n  Raza:       "<<pe[i].raza;
-			cout<<"\n  Edad:       "<<pe[i].edad;
-			cout<<"\n  ----------------------"<<endl;
+			cout << "\n\tLISTA DE MASCOTAS O^O"<<endl;
+			cout << "\n\nCodigo:     " << pe[i].codigo;
+			cout << "\nNombre:     " << pe[i].nombre;
+			cout << "\nFecha ing:  " << pe[i].fecha;
+			cout<<  "\nEspecie:    " << pe[i].especie;
+			cout << "\nSexo: 	    " << pe[i].sexo;
+			cout << "\nRaza:       " << pe[i].raza;
+			cout << "\nEdad:       " << pe[i].edad;
+					 
+
 		}
 	}
 	
-	cout << "\nPulse una tecla para ir al menu principal..";
+	cout << "\nPulse una tecla para ir al menu principal ...";
 	getch();	
 	limpia();
 	menu();
 }
-
 void eliminar(){
 	char cod[15];
 	int aux = 0;
