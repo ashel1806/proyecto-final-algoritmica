@@ -21,25 +21,19 @@ void listar();
 void eliminar();
 
 //Estructuras de las mascotas a adoptar
-struct perro{
+struct mascota{
 	char nombre[35];
 	char codigo[15];
 	char fecha[30];
 	char raza[30];
+	char tipo[5];
+	char sexo[6];
 	int edad;
 	int lleno;
-}pe[N];
+};
 
-struct gato{
-	char nombre[35];
-	char codigo[15];
-	char fecha[30];
-	char raza[30];
-	int edad;
-	int lleno;
-}gat [N];
+mascota pe[N];
 
-//FUNCION PRINCIPAL MAIN: ES LA PRIMER FUNCI�N QUE EJECUTA EL PROGRAMA
 int main(){
 	cuadro();
 	vacio();
@@ -47,7 +41,6 @@ int main(){
 	getch();
 	return 0;
 }
-
 
 void menu(){
 	char op,op2;
