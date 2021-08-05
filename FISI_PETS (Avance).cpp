@@ -29,6 +29,7 @@ struct mascota{
 	char fecha[30];
 	char raza[30];
 	char tipo[5];
+	char distrito[40];
 	char sexo[6];
 	int edad;
 	int lleno;
