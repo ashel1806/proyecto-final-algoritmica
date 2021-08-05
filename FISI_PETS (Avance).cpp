@@ -21,7 +21,7 @@ void limpia();
 void adopcion();
 void listar();
 void eliminar();
-
+//luffi
 //Estructuras de las mascotas a adoptar
 struct mascota{
 	char codigo[15];
