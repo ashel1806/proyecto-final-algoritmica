@@ -316,7 +316,7 @@ void ingresar(string tipo){
 	}
 	
 	if (aux == 0){
-		cout << "No quedan mas espacios. Presione una tecla para continuar..";
+		cout << "No quedan mas espacios. Presione una tecla para continuar ...";
 		getch();
 	}
 
@@ -371,22 +371,23 @@ void eliminar(string tipo){
 	char op,op2;
 
 	limpiarPantalla();
-
-	cout << "\tDESCARTAR MASCOTA"<<endl;
+	
+	cout << "\t-- DESCARTAR MASCOTA --"<<endl;
 	cout << "\nIngrese el codigo de la mascota:   ";
 	fflush(stdin);
+	fgets(codigoMascota,N,stdin);
 	cin.getline(codigoMascota, 15);
 	
 	if(tipo == "perro"){
 		for (int i = 0; i < N && aux == 0; i++){
 			if(strcmp(codigoMascota, pe[i].codigo)){
 				aux = 1;
-				cout << "\nNombre:           " << pe[i].nombre;
-				cout << "\nFecha de ingreso: " << pe[i].fecha;
-				cout << "\nRaza:             " << pe[i].raza;
+				cout << "\nNombre:            " << pe[i].nombre;
+				cout << "\nFecha de ingreso:  " << pe[i].fecha;
+				cout << "\nRaza:              " << pe[i].raza;
 				cout << "\nDistrito:          " << pe[i].distrito;
-				cout << "\nSexo: 		  " << pe[i].sexo;
-				cout << "\nEdad:             " << pe[i].edad;
+				cout << "\nSexo: 		   " << pe[i].sexo;
+				cout << "\nEdad:              " << pe[i].edad;
 				
 				do{
 
@@ -405,7 +406,7 @@ void eliminar(string tipo){
 				if (op=='2'){
 					cout << "\n\nCodigo no eliminado. Presione una tecla para ir al menu principal ...";
 					getch();
-					elegirRol();	
+					elegirRol();
 				}
 			}
 		}
