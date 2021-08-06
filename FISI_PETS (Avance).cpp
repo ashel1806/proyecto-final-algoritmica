@@ -167,7 +167,7 @@ void darEnAdopcion(){
 
 		if(a == 0){
 			cout<<"No hay perros. Primero se debe ingresar un perro.";
-			cout<<"Presione una tecla para continuar..";
+			cout<<"Presione una tecla para continuar ...";
 			getch();
 			elegirRol();
 		}
@@ -200,7 +200,7 @@ void ingresar(string tipo){
 					for(int j = 0; j < i && rep==0; j++){
 						if(strcmp(pe[i].codigo,pe[j].codigo) == 0){
 							rep = 1;
-							cout << "  Codigo ya guardado. Presione una tecla para volver a ingresar..";
+							cout << "  Codigo ya guardado. Presione una tecla para volver a ingresar ...";
 							getch();
 						}
 					}
@@ -239,7 +239,7 @@ void ingresar(string tipo){
 				pe[i].lleno = 1; //Para validar que ya exista al menos una mascota
 				
 				do{
-					cout<<"\n\n  Que desea hacer ahora?"<<endl; 
+					cout<<"\n\n  ¿Que desea hacer ahora?"<<endl; 
 					cout<<"\n  (1) Ingresar otro perro"<<endl;
 					cout<<"  (2) Ir al menu principal";
 					op = getch();	
@@ -266,7 +266,7 @@ void ingresar(string tipo){
 					for(int j = 0; j < i && rep==0; j++){
 						if(strcmp(cat[i].codigo, cat[j].codigo) == 0){
 							rep = 1;
-							cout << "  Codigo ya guardado. Presione una tecla para volver a ingresar..";
+							cout << "  Codigo ya guardado. Presione una tecla para volver a ingresar ...";
 							getch();
 						}
 					}
@@ -335,7 +335,7 @@ void listar(string tipo){
 			if (pe[i].lleno == 1){
 				cout<<"\n  Codigo:      "<<pe[i].codigo;
 				cout<<"\n  Nombre:      "<<pe[i].nombre;
-				cout<<"\n  Fecha ing:   "<<pe[i].fecha;
+				cout<<"\n  Fecha de ingreso:   "<<pe[i].fecha;
 				cout<<"\n  Raza:        "<<pe[i].raza;
 				cout<<"\n  Distrito:    "<<pe[i].distrito;
 				cout<<"\n  Sexo: 	      "<<pe[i].sexo;
@@ -348,13 +348,13 @@ void listar(string tipo){
 
 		for (int i = 0; i < N ; i++){	
 			if (cat[i].lleno == 1){
-				cout<<"\n  Codigo:      "<<cat[i].codigo;
-				cout<<"\n  Nombre:      "<<cat[i].nombre;
-				cout<<"\n  Fecha ing:   "<<cat[i].fecha;
-				cout<<"\n  Raza:        "<<cat[i].raza;
-				cout<<"\n  Distrito:    "<<cat[i].distrito;
-				cout<<"\n  Sexo:        "<<cat[i].sexo;
-				cout<<"\n  Edad:        "<<cat[i].edad;
+				cout<<"\n  Codigo:        "<<cat[i].codigo;
+				cout<<"\n  Nombre:        "<<cat[i].nombre;
+				cout<<"\n  Fecha de ingreso:   "<<cat[i].fecha;
+				cout<<"\n  Raza:          "<<cat[i].raza;
+				cout<<"\n  Distrito:      "<<cat[i].distrito;
+				cout<<"\n  Sexo:          "<<cat[i].sexo;
+				cout<<"\n  Edad:          "<<cat[i].edad;
 				cout<<"\n\n-----------------------"<<endl;
 			}
 		}
@@ -422,9 +422,9 @@ void eliminar(string tipo){
 				
 				do{
 
-					cout << "\n\n  Esta seguro que desea eliminar esta informacion de manera permanente?";
-					cout<<"\n\n  1. Si"<<endl;
-					cout<<"  2. No";
+					cout << "\n\n  ¿Esta seguro que desea eliminar esta informacion de manera permanente?";
+					cout<<"\n\n  1. Si";
+					cout<<"\n 2. No";
 					op = getch();	
 
 				}while (op != '1' && op != '2');
@@ -503,13 +503,13 @@ void adopcion(){
 					cout << "\n\nEstado:     Factible de dar en adopcion";
 				}
 		
-				cout<<"\n\nCodigo:     "<<pe[i].codigo;
-				cout<<"\nNombre:     "<<pe[i].nombre;
-				cout<<"\nFecha ing:  "<<pe[i].fecha;
-				cout<<"\nRaza:       "<<pe[i].raza;
-				cout<<"\nDistrito:       "<<pe[i].distrito;
-				cout<<"\nSexo:       "<<pe[i].sexo;
-				cout<<"\nEdad:       "<<pe[i].edad;		
+				cout<<"\n\nCodigo:      "<<pe[i].codigo;
+				cout<<"\nNombre:      "<<pe[i].nombre;
+				cout<<"\nFecha de ingreso:  "<<pe[i].fecha;
+				cout<<"\nRaza:        "<<pe[i].raza;
+				cout<<"\nDistrito:        "<<pe[i].distrito;
+				cout<<"\nSexo:        "<<pe[i].sexo;
+				cout<<"\nEdad:        "<<pe[i].edad;		
 			}
 		}
 	}else {
