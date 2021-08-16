@@ -11,6 +11,7 @@ using namespace std;
 //Prototipo de funciones a utilizar
 void elegirRol();
 void darEnAdopcion();
+void reclutar();
 void vacio();
 void limpiarPantalla();
 void adopcion();
