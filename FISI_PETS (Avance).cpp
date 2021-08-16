@@ -53,6 +53,15 @@ int main(){
 
 	return 0;
 }
+//Estructura de los voluntarios
+struct recluta
+{
+	string nombre;
+	string correo;
+	char numero[9];
+	int edad;
+	char distrito[40];
+}
 
 //Declaracion de Funciones
 void elegirRol(){
