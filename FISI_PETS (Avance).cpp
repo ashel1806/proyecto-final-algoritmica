@@ -90,9 +90,9 @@ void darEnAdopcion(){
 	do{
 		limpiarPantalla();
 		cout << "\n\n  -- MENU PARA DAR EN ADOPCION --"<<endl;
-		cout << "\n  1. Perros"<<endl;
-		cout << "  2. Gatos"<<endl;
-		cout << "  3. Cerrar"<<endl;
+		cout << "\n  1. Perro"<<endl;
+		cout << "  2. Gato"<<endl;
+		cout << "  3. Salir"<<endl;
 		cout << "\n  Ingresar opcion: "; 
 		cin >> op;
 		
@@ -166,7 +166,7 @@ void darEnAdopcion(){
 		}
 
 		if(a == 0){
-			cout<<"No hay perros. Primero se debe ingresar un perro.";
+			cout<<"No hay gatos. Primero se debe ingresar un gato.";
 			cout<<"Presione una tecla para continuar..";
 			getch();
 			elegirRol();
@@ -177,7 +177,6 @@ void darEnAdopcion(){
 		
 	if (op=='3') exit(0);
 }
-
 
 void ingresar(string tipo){
 	int aux = 0, rep =0;
@@ -323,13 +322,12 @@ void ingresar(string tipo){
 	elegirRol();
 }
 
-
 void listar(string tipo){
 	int aux = 0;
 	limpiarPantalla();
 	
 	if(tipo == "perro"){
-		cout << "\n\tLISTA DE PEWITOS O^O"<<endl;
+		cout << "\n\tLISTA DE PERRiTOS "<<endl;
 
 		for (int i = 0; i < N ; i++){	
 			if (pe[i].lleno == 1){
@@ -340,11 +338,12 @@ void listar(string tipo){
 				cout<<"\n  Distrito:    "<<pe[i].distrito;
 				cout<<"\n  Sexo: 	      "<<pe[i].sexo;
 				cout<<"\n  Edad:        "<<pe[i].edad;
+				cout<<"\n\n-----------------------"<<endl;
 			}
 		}
 
 	}else {
-		cout << "\n\tLISTA DE GATIWOS O^O"<<endl;
+		cout << "\n\tLISTA DE GATITOS "<<endl;
 
 		for (int i = 0; i < N ; i++){	
 			if (cat[i].lleno == 1){
@@ -379,7 +378,7 @@ void eliminar(string tipo){
 	
 	if(tipo == "perro"){
 		for (int i = 0; i < N && aux == 0; i++){
-			if(strcmp(codigoMascota, pe[i].codigo)){
+			if(strcmp(codigoMascota, pe[i].codigo) == 0){
 				aux = 1;
 				cout << "\nNombre:           " << pe[i].nombre;
 				cout << "\nFecha de ingreso: " << pe[i].fecha;
@@ -460,7 +459,6 @@ void eliminar(string tipo){
 	getch();	
 	elegirRol();
 }
-
 
 void adopcion(){
 	char codigoMascota[15];
@@ -557,7 +555,6 @@ void adopcion(){
 		darEnAdopcion();
 	}	
 }
-
 
 void vacio(){
 	for (int i = 0; i < N; i++){
