@@ -11,6 +11,7 @@ using namespace std;
 //Prototipo de funciones a utilizar
 void elegirRol();
 void darEnAdopcion();
+void reclutar();
 void vacio();
 void limpiarPantalla();
 void adopcion();
@@ -45,6 +46,22 @@ struct gato{
 
 gato cat[N];
 
+//Estructura de los voluntarios
+struct recluta
+{
+	char nombre[50];
+	char correo[50];
+	char numero[9];
+	char dni[8];
+	int edad;
+	char sexo[2];
+	char direccion[50];
+	int lleno;
+};
+
+recluta rec[N];
+
+//Funcion Principal
 int main(){
 	elegirRol();
 	vacio();
@@ -52,6 +69,7 @@ int main(){
 
 	return 0;
 }
+
 
 //Declaracion de Funciones
 void elegirRol(){
@@ -67,17 +85,22 @@ void elegirRol(){
 		cout<<"\n\n\n -- Elegir Accion --"<<endl;
 		cout<<"\n  1. Dar en adopcion"<<endl;
 		cout<<"  2. Adoptar"<<endl;
+		cout<<"  3. Inscribir voluntario"<<endl;
 		cout<<"\n  Ingresar opcion: ";
 		cin>>op;
 
-		if(op != '1' && op != '2')
+		if(op != '1' && op != '2' && op != '3')
 		{
 			cout<<"\n\n  Opcion invalida. Presione una tecla para elegir otra opcion. ";
 			getch();
 		}
 		
-	}while(op != '1' && op != '2');
+	}while(op != '1' && op != '2' && op != '3');
 
+	if(op =='3')
+	{
+		reclutar();
+	}
 	op == '1' 
 		? darEnAdopcion() 
 		: adopcion();
@@ -177,6 +200,69 @@ void darEnAdopcion(){
 		
 	if (op=='3') exit(0);
 }
+void reclutar()
+{	
+	int aux = 0, rep =0;
+	char op;
+	limpiarPantalla();
+	cout<<"FORMULARIO DE INSCRIPCION A VOLUNTARIOS"<<endl;
+	for(int i=0;i<N && aux==0; i++)
+	{
+		fflush(stdin);
+		cout<<"\n Nombre: ";
+		fflush(stdin);
+		cin.getline(rec[i].nombre, 50);
+
+		
+		cout<<"\n Edad: ";
+		fflush(stdin);
+		cin>>rec[i].edad;
+		
+		cout<<"\n Sexo(M o F): ";
+		fflush(stdin);
+		cin.getline(rec[i].sexo, 2);
+		
+		cout<<"\n DNI: ";
+		
+		cin.getline(rec[i].dni, 8);
+		
+		cout<<"\n Correo electronico: ";
+		
+		cin.getline(rec[i].correo, 50);
+
+		
+		cout<<"\n Numero de celular: ";
+		
+		cin.getline(rec[i].numero, 9);
+
+		
+		cout<<"\n Lugar de residencia: ";
+		
+		cin.getline(rec[i].direccion, 50);
+
+		do
+		{
+			cout<<"\n\n  Que desea hacer ahora?"<<endl; 
+			cout<<"\n  (1) Ingresar los datos de otro voluntario"<<endl;
+			cout<<"  (2) Ir al menu principal";
+			op = getch();	
+		}
+		while (op != '1' && op != '2');
+				
+		if(op == '1') cout<<"\n\n";
+					
+		if (op == '2') aux = 1;
+	}
+	
+	
+	
+	if (aux == 0){
+	cout << "No quedan mas espacios. Presione una tecla para continuar ...";
+		getch();
+	}
+
+	elegirRol();
+}
 
 void ingresar(string tipo){
 	int aux = 0, rep =0;
@@ -199,7 +285,7 @@ void ingresar(string tipo){
 					for(int j = 0; j < i && rep==0; j++){
 						if(strcmp(pe[i].codigo,pe[j].codigo) == 0){
 							rep = 1;
-							cout << "  Codigo ya guardado. Presione una tecla para volver a ingresar..";
+							cout << "  Codigo ya guardado. Presione una tecla para volver a ingresar ...";
 							getch();
 						}
 					}
@@ -238,7 +324,7 @@ void ingresar(string tipo){
 				pe[i].lleno = 1; //Para validar que ya exista al menos una mascota
 				
 				do{
-					cout<<"\n\n  Que desea hacer ahora?"<<endl; 
+					cout<<"\n\n  ¿Que desea hacer ahora?"<<endl; 
 					cout<<"\n  (1) Ingresar otro perro"<<endl;
 					cout<<"  (2) Ir al menu principal";
 					op = getch();	
@@ -265,7 +351,7 @@ void ingresar(string tipo){
 					for(int j = 0; j < i && rep==0; j++){
 						if(strcmp(cat[i].codigo, cat[j].codigo) == 0){
 							rep = 1;
-							cout << "  Codigo ya guardado. Presione una tecla para volver a ingresar..";
+							cout << "  Codigo ya guardado. Presione una tecla para volver a ingresar ...";
 							getch();
 						}
 					}
@@ -315,7 +401,7 @@ void ingresar(string tipo){
 	}
 	
 	if (aux == 0){
-		cout << "No quedan mas espacios. Presione una tecla para continuar..";
+		cout << "No quedan mas espacios. Presione una tecla para continuar ...";
 		getch();
 	}
 
@@ -333,7 +419,7 @@ void listar(string tipo){
 			if (pe[i].lleno == 1){
 				cout<<"\n  Codigo:      "<<pe[i].codigo;
 				cout<<"\n  Nombre:      "<<pe[i].nombre;
-				cout<<"\n  Fecha ing:   "<<pe[i].fecha;
+				cout<<"\n  Fecha de ingreso:   "<<pe[i].fecha;
 				cout<<"\n  Raza:        "<<pe[i].raza;
 				cout<<"\n  Distrito:    "<<pe[i].distrito;
 				cout<<"\n  Sexo: 	      "<<pe[i].sexo;
@@ -347,13 +433,13 @@ void listar(string tipo){
 
 		for (int i = 0; i < N ; i++){	
 			if (cat[i].lleno == 1){
-				cout<<"\n  Codigo:      "<<cat[i].codigo;
-				cout<<"\n  Nombre:      "<<cat[i].nombre;
-				cout<<"\n  Fecha ing:   "<<cat[i].fecha;
-				cout<<"\n  Raza:        "<<cat[i].raza;
-				cout<<"\n  Distrito:    "<<cat[i].distrito;
-				cout<<"\n  Sexo:        "<<cat[i].sexo;
-				cout<<"\n  Edad:        "<<cat[i].edad;
+				cout<<"\n  Codigo:        "<<cat[i].codigo;
+				cout<<"\n  Nombre:        "<<cat[i].nombre;
+				cout<<"\n  Fecha de ingreso:   "<<cat[i].fecha;
+				cout<<"\n  Raza:          "<<cat[i].raza;
+				cout<<"\n  Distrito:      "<<cat[i].distrito;
+				cout<<"\n  Sexo:          "<<cat[i].sexo;
+				cout<<"\n  Edad:          "<<cat[i].edad;
 				cout<<"\n\n-----------------------"<<endl;
 			}
 		}
@@ -370,22 +456,23 @@ void eliminar(string tipo){
 	char op,op2;
 
 	limpiarPantalla();
-
-	cout << "\tDESCARTAR MASCOTA"<<endl;
+	
+	cout << "\t-- DESCARTAR MASCOTA --"<<endl;
 	cout << "\nIngrese el codigo de la mascota:   ";
 	fflush(stdin);
+	fgets(codigoMascota,N,stdin);
 	cin.getline(codigoMascota, 15);
 	
 	if(tipo == "perro"){
 		for (int i = 0; i < N && aux == 0; i++){
 			if(strcmp(codigoMascota, pe[i].codigo) == 0){
 				aux = 1;
-				cout << "\nNombre:           " << pe[i].nombre;
-				cout << "\nFecha de ingreso: " << pe[i].fecha;
-				cout << "\nRaza:             " << pe[i].raza;
+				cout << "\nNombre:            " << pe[i].nombre;
+				cout << "\nFecha de ingreso:  " << pe[i].fecha;
+				cout << "\nRaza:              " << pe[i].raza;
 				cout << "\nDistrito:          " << pe[i].distrito;
-				cout << "\nSexo: 		  " << pe[i].sexo;
-				cout << "\nEdad:             " << pe[i].edad;
+				cout << "\nSexo: 		   " << pe[i].sexo;
+				cout << "\nEdad:              " << pe[i].edad;
 				
 				do{
 
@@ -404,7 +491,7 @@ void eliminar(string tipo){
 				if (op=='2'){
 					cout << "\n\nCodigo no eliminado. Presione una tecla para ir al menu principal ...";
 					getch();
-					elegirRol();	
+					elegirRol();
 				}
 			}
 		}
@@ -421,9 +508,9 @@ void eliminar(string tipo){
 				
 				do{
 
-					cout << "\n\n  Esta seguro que desea eliminar esta informacion de manera permanente?";
-					cout<<"\n\n  1. Si"<<endl;
-					cout<<"  2. No";
+					cout << "\n\n  ¿Esta seguro que desea eliminar esta informacion de manera permanente?";
+					cout<<"\n\n  1. Si";
+					cout<<"\n 2. No";
 					op = getch();	
 
 				}while (op != '1' && op != '2');
@@ -501,13 +588,13 @@ void adopcion(){
 					cout << "\n\nEstado:     Factible de dar en adopcion";
 				}
 		
-				cout<<"\n\nCodigo:     "<<pe[i].codigo;
-				cout<<"\nNombre:     "<<pe[i].nombre;
-				cout<<"\nFecha ing:  "<<pe[i].fecha;
-				cout<<"\nRaza:       "<<pe[i].raza;
-				cout<<"\nDistrito:       "<<pe[i].distrito;
-				cout<<"\nSexo:       "<<pe[i].sexo;
-				cout<<"\nEdad:       "<<pe[i].edad;		
+				cout<<"\n\nCodigo:      "<<pe[i].codigo;
+				cout<<"\nNombre:      "<<pe[i].nombre;
+				cout<<"\nFecha de ingreso:  "<<pe[i].fecha;
+				cout<<"\nRaza:        "<<pe[i].raza;
+				cout<<"\nDistrito:        "<<pe[i].distrito;
+				cout<<"\nSexo:        "<<pe[i].sexo;
+				cout<<"\nEdad:        "<<pe[i].edad;		
 			}
 		}
 	}else {
