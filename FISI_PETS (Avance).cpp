@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <fstream>
 #include <time.h>
+#include <bits/stdc++.h> //Para usar transform()
 #include <iostream>
 
 using namespace std;
@@ -21,6 +22,12 @@ void modificar(string tipo);
 void listar(string tipo);
 char menuAdoptar(string texto);
 void listarV();
+string saveToTXT(string str);
+string outputString(string str);
+
+//Inicializando la hora local
+time_t now = time(0);
+tm* localtm = localtime(&now);
 
 //Estructuras de las mascotas a adoptar
 struct Mascota{
@@ -82,10 +89,10 @@ void elegirRol(){
 		case '3':
 		{
 		system("cls");
-			cout<<"\tVOLUNTARIOS"<<endl;
-			cout<<"1) Inscribir voluntarios"<<endl;
-			cout<<"2) Lista de voluntarios"<<endl;
-			cout<<"Opcion: ";
+			cout<<"\n\tVOLUNTARIOS"<<endl;
+			cout<<"\n  1) Inscribir voluntarios"<<endl;
+			cout<<"  2) Lista de voluntarios"<<endl;
+			cout<<"\n  Opcion: ";
 			cin>>opcion;
 			switch (opcion)
 			{
@@ -197,7 +204,7 @@ void reclutar()
 		cin>>recluta.edad;
 		fflush(stdin);
 
-		cout<<"\n Sexo(M o F): ";
+		cout<<"\n Sexo: ";
 		getline(cin, recluta.sexo);
 		fflush(stdin);
 
@@ -205,13 +212,24 @@ void reclutar()
 		getline(cin, recluta.dni);
 		fflush(stdin);
 
-		cout<<"\n Correo electronico: ";
-		getline(cin, recluta.correo);
-		fflush(stdin);
+		do {
+			cout<<"\n Correo electronico: ";
+			getline(cin, recluta.correo);
 
-		cout<<"\n Numero de celular: ";
-		getline(cin, recluta.numero);
-		fflush(stdin);
+			if(!regex_match(recluta.correo, regex("^[^@\\s]+@[^@\\s]+\.[^@\\s]+$")))
+				cout<<"\n  Digite un correo valido por favor.";
+
+		} while(!regex_match(recluta.correo, regex("^[^@\\s]+@[^@\\s]+\.[^@\\s]+$")));
+
+		do {
+			cout<<"\n Numero de celular: ";
+			getline(cin, recluta.numero);
+			fflush(stdin);
+
+			if(!regex_match(recluta.numero, regex("\\d{9}")))
+				cout<<"\n  El numero de celular debe tener digitos."<<endl;
+
+		} while(!regex_match(recluta.numero, regex("\\d{9}")));
 
 		cout<<"\n Direccion de residencia ";
 		getline(cin, recluta.direccion);
@@ -223,7 +241,7 @@ void reclutar()
 		archivo<<recluta.dni<<endl;
 		archivo<<recluta.correo<<endl;
 		archivo<<recluta.numero<<endl;
-		archivo<<recluta.direccion<<endl;
+		archivo<<saveToTXT(recluta.direccion)<<endl;
 
 		cout<<"\n\n  Que desea hacer ahora?"<<endl;
 		cout<<"\n  (1) Ingresar los datos de otro voluntario"<<endl;
@@ -239,6 +257,9 @@ void reclutar()
 void ingresar(string tipo){
 	char seguir;
 
+	//Transformamos el texto a mayusculas
+	transform(tipo.begin(), tipo.end(), tipo.begin(), ::toupper);
+
 	ofstream archivo;
 	archivo.open("mascotasDB.txt", ios::app);
 
@@ -253,8 +274,11 @@ void ingresar(string tipo){
 		getline(cin, mascota.nombre);
 		fflush(stdin);
 
-		cout<<"\n  Fecha de ingreso: ";
-		getline(cin, mascota.fecha);
+		cout<<"\n  Fecha de ingreso: "<<asctime(localtm)<<endl;
+		mascota.fecha = asctime(localtm);
+		//Modificando la ultima linea por un espacio simple
+		int tam = mascota.fecha.length();
+		mascota.fecha[tam-1] = ' ';
 		fflush(stdin);
 
 		cout<<"\n  Raza: ";
@@ -274,12 +298,15 @@ void ingresar(string tipo){
 		fflush(stdin);
 
 		mascota.codigo = 1000 + rand()%(2001 - 1000);
+
+		transform(tipo.begin(), tipo.end(), tipo.begin(), ::tolower);
+
 		mascota.tipo = tipo;
 		archivo<<mascota.codigo<<endl;
 		archivo<<mascota.nombre<<endl;
-		archivo<<mascota.fecha<<endl;
+		archivo<<saveToTXT(mascota.fecha)<<endl;
 		archivo<<mascota.raza<<endl;
-		archivo<<mascota.distrito<<endl;
+		archivo<<saveToTXT(mascota.distrito)<<endl;
 		archivo<<mascota.sexo<<endl;
 		archivo<<mascota.tipo<<endl;
 		archivo<<mascota.edad<<endl;
@@ -306,20 +333,10 @@ void listar(string tipo){
 	tipo == "perro"
 		?	cout<<"\n\tLISTA DE PERRITOS "<<endl
 		: cout<<"\n\tLISTA DE GATITOS "<<endl;
+
 	archivo>>mascota.codigo;
 	while(!archivo.eof())
 	{
-		cout<<"\n\n  ///////////////////////////////////////////////////";
-		cout<<"\n\n\t\t C A R N E T "<<endl;
-
-		if(mascota.edad > 7)
-		{
-			cout<<"\n\nEstado: \tNo factible para dar en adopcion";
-		}
-		else
-		{
-			cout<<"\n\nEstado: \tFactible de dar en adopcion";
-		}
 		archivo>>mascota.nombre;
 		archivo>>mascota.fecha;
 		archivo>>mascota.raza;
@@ -331,9 +348,9 @@ void listar(string tipo){
 		if(mascota.tipo == tipo) {
 			cout<<"\n  Codigo:             "<<mascota.codigo;
 			cout<<"\n  Nombre:             "<<mascota.nombre;
-			cout<<"\n  Fecha de ingreso:   "<<mascota.fecha;
+			cout<<"\n  Fecha de ingreso:   "<<outputString(mascota.fecha);
 			cout<<"\n  Raza:               "<<mascota.raza;
-			cout<<"\n  Distrito:           "<<mascota.distrito;
+			cout<<"\n  Distrito:           "<<outputString(mascota.distrito);
 			cout<<"\n  Sexo: 	      "<<mascota.sexo;
 			cout<<"\n  Edad:               "<<mascota.edad;
 			cout<<"\n\n-----------------------"<<endl;
@@ -484,7 +501,8 @@ void modificar(string tipo){
 	}
 }
 
-void adopcion(){
+void adopcion()
+{
 	int codigo;
 	string tipo = "";
 	char op, opAdoptar, seguir;
@@ -618,6 +636,10 @@ void adopcion(){
 
 char menuAdoptar(string texto) {
 	char opcion;
+
+	//Transformamos el texto a mayusculas
+	transform(texto.begin(), texto.end(), texto.begin(), ::toupper);
+
 	do{
 		cout<<"\n\t\t/////////////////////////////////////"<<endl;
 		cout<<"\t\t////                             ////"<<endl;
@@ -641,37 +663,63 @@ char menuAdoptar(string texto) {
 	return opcion;
 }
 
-void limpiarPantalla(){
-	system("CLS");
-}
 void listarV()
 {
-    int cont=0;
-    ifstream read("voluntariosDB.txt", ios::in);
-    read>>recluta.nombre;
-    while(!read.eof())
-    {
-        cont++;
-        read>>recluta.edad;
-        read>>recluta.sexo;
-        read>>recluta.dni;
-        read>>recluta.correo;
-        read>>recluta.numero;
-        read>>recluta.direccion;
-        cout<<"\tRECLUTA "<<cont<<endl;
-        cout<<"Nombre: "<<recluta.nombre<<endl;
-        fflush(stdin);
-        cout<<"Edad: "<<recluta.edad<<endl;
-        cout<<"Genero: "<<recluta.sexo<<endl;
-        cout<<"DNI: "<<recluta.dni<<endl;
-        cout<<"Correo: "<<recluta.correo<<endl;
-        cout<<"Numero: "<<recluta.numero<<endl;
-        cout<<"Direccion: "<<recluta.direccion<<endl;
-        read>>recluta.nombre;
-    }
+  int cont=0;
+  ifstream read("voluntariosDB.txt", ios::in);
 
-    read.close();
-    system("pause");
-		elegirRol();
-    system("cls");
+	limpiarPantalla();
+
+	cout<<"  ============================================="<<endl;
+	read>>recluta.nombre;
+  while(!read.eof())
+  {
+    cont++;
+    read>>recluta.edad;
+    read>>recluta.sexo;
+    read>>recluta.dni;
+    read>>recluta.correo;
+    read>>recluta.numero;
+    read>>recluta.direccion;
+    cout<<"\n\t\tRECLUTA #"<<cont<<endl;
+    cout<<"\n\t  Nombre:      "<<recluta.nombre<<endl;
+    cout<<"\t  Edad:        "<<recluta.edad<<endl;
+    cout<<"\t  Genero:      "<<recluta.sexo<<endl;
+    cout<<"\t  DNI:         "<<recluta.dni<<endl;
+    cout<<"\t  Correo:      "<<recluta.correo<<endl;
+    cout<<"\t  Numero:      "<<recluta.numero<<endl;
+    cout<<"\t  Direccion:   "<<outputString(recluta.direccion)<<endl<<endl;
+    read>>recluta.nombre;
+  }
+
+	cout<<"  ============================================="<<endl<<endl;
+
+  read.close();
+  system("pause");
+	elegirRol();
+  system("cls");
+}
+
+string saveToTXT(string str)
+{
+	for(int i = 0; i < str.length(); i++)
+	{
+		if(str[i] == ' ') str[i] = '.';
+	}
+
+	return str;
+}
+
+string outputString(string str)
+{
+	for(int i = 0; i < str.length(); i++)
+	{
+		if(str[i] == '.') str[i] = ' ';
+	}
+
+	return str;
+}
+
+void limpiarPantalla(){
+	system("CLS");
 }
