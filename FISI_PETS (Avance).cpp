@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
+#include <regex>
 #include <windows.h>
 #include <fstream>
 #include <time.h>
@@ -11,29 +12,27 @@
 using namespace std;
 
 //Prototipo de funciones a utilizar
+
+//Funciones Principales
 void elegirRol();
 void menuDarAdopcion();
 void reclutar();
-void vacio();
-void limpiarPantalla();
-void adopcion();
 void ingresar(string tipo);
+void listarMascotas(string tipo);
 void modificar(string tipo);
-void listar(string tipo);
 char menuAdoptar(string texto);
-void listarV();
+void adopcion();
+void listarVoluntarios();
+
+//Funciones auxiliares
+void limpiarPantalla();
 string saveToTXT(string str);
 string outputString(string str);
-
-//Inicializando la hora local
-time_t now = time(0);
-tm* localtm = localtime(&now);
 
 //Estructuras de las mascotas a adoptar
 struct Mascota{
 	int codigo;
-	string nombre, fecha, raza, distrito, sexo;
-	string tipo;
+	string nombre, fecha, raza, distrito, sexo, tipo;
 	int edad;
 } mascota;
 
@@ -46,6 +45,7 @@ struct Recluta {
 
 //Funcion Principal
 int main(){
+	system("color 70");
 	srand(time(NULL));
 	elegirRol();
 	getch();
@@ -88,7 +88,7 @@ void elegirRol(){
 			break;
 		case '3':
 		{
-		system("cls");
+			limpiarPantalla();
 			cout<<"\n\tVOLUNTARIOS"<<endl;
 			cout<<"\n  1) Inscribir voluntarios"<<endl;
 			cout<<"  2) Lista de voluntarios"<<endl;
@@ -100,7 +100,7 @@ void elegirRol(){
 				reclutar();
 				break;
 			case 2:
-				listarV();
+				listarVoluntarios();
 			default:
 				break;
 			}
@@ -141,7 +141,7 @@ void menuDarAdopcion(){
 				if(opcion == '2') modificar("perro");
 				if(opcion == '3')
 				{
-					listar("perro");
+					listarMascotas("perro");
 					cout<<"  Desea ir al menu principal? (S)i/(N)o: "<<endl;
 					cout<<"\nOpcion: "; cin>>seguir;
 
@@ -165,7 +165,7 @@ void menuDarAdopcion(){
 				if(opcion == '2') modificar("gato");
 				if(opcion == '3')
 				{
-					listar("gato");
+					listarMascotas("gato");
 					cout<<"  Desea ir al menu principal? (S)i/(N)o: "<<endl;
 					cout<<"\nOpcion: "; cin>>seguir;
 
@@ -193,7 +193,7 @@ void reclutar()
 	if(archivo.fail()) cout<<"\nHa ocurrido un eror al abrir el registro de voluntarios...";
 
 	limpiarPantalla();
-	cout<<"FORMULARIO DE INSCRIPCION A VOLUNTARIOS"<<endl;
+	cout<<"\n\tFORMULARIO DE INSCRIPCION A VOLUNTARIOS"<<endl;
 
 	do {
 		fflush(stdin);
@@ -208,16 +208,22 @@ void reclutar()
 		getline(cin, recluta.sexo);
 		fflush(stdin);
 
-		cout<<"\n DNI: ";
-		getline(cin, recluta.dni);
-		fflush(stdin);
+		do {
+			cout<<"\n DNI: ";
+			getline(cin, recluta.dni);
+			fflush(stdin);
+
+			if(!regex_match(recluta.dni, regex("\\d{8}")))
+				cout<<"\n El numero de DNI debe tener 8 numeros."<<endl;
+
+		} while(!regex_match(recluta.dni, regex("\\d{8}")));
 
 		do {
 			cout<<"\n Correo electronico: ";
 			getline(cin, recluta.correo);
 
 			if(!regex_match(recluta.correo, regex("^[^@\\s]+@[^@\\s]+\.[^@\\s]+$")))
-				cout<<"\n  Digite un correo valido por favor.";
+				cout<<"\n  Digite un correo valido por favor."<<endl;
 
 		} while(!regex_match(recluta.correo, regex("^[^@\\s]+@[^@\\s]+\.[^@\\s]+$")));
 
@@ -227,11 +233,11 @@ void reclutar()
 			fflush(stdin);
 
 			if(!regex_match(recluta.numero, regex("\\d{9}")))
-				cout<<"\n  El numero de celular debe tener digitos."<<endl;
+				cout<<"\n  El numero de celular debe tener 9 digitos."<<endl;
 
 		} while(!regex_match(recluta.numero, regex("\\d{9}")));
 
-		cout<<"\n Direccion de residencia ";
+		cout<<"\n Direccion de residencia: ";
 		getline(cin, recluta.direccion);
 		fflush(stdin);
 
@@ -251,7 +257,7 @@ void reclutar()
 	}while (seguir != '2');
 
 	archivo.close();
-	elegirRol();
+	main();
 }
 
 void ingresar(string tipo){
@@ -273,6 +279,10 @@ void ingresar(string tipo){
 		cout<<"\n  Nombre: ";
 		getline(cin, mascota.nombre);
 		fflush(stdin);
+
+		//Inicializando la hora local
+		time_t now = time(0);
+		tm* localtm = localtime(&now);
 
 		cout<<"\n  Fecha de ingreso: "<<asctime(localtm)<<endl;
 		mascota.fecha = asctime(localtm);
@@ -319,10 +329,10 @@ void ingresar(string tipo){
 	}while (seguir != '2');
 
 	archivo.close();
-	elegirRol();
+	main();
 }
 
-void listar(string tipo){
+void listarMascotas(string tipo){
 	ifstream archivo;
 	archivo.open("mascotasDB.txt", ios::in);
 
@@ -335,6 +345,9 @@ void listar(string tipo){
 		: cout<<"\n\tLISTA DE GATITOS "<<endl;
 
 	archivo>>mascota.codigo;
+	if(mascota.codigo == NULL)
+		cout<<"\n  Aun no hay "<<tipo<<"s en el albergue."<<endl<<endl;
+
 	while(!archivo.eof())
 	{
 		archivo>>mascota.nombre;
@@ -358,9 +371,7 @@ void listar(string tipo){
 
 		archivo>>mascota.codigo;
 	}
-
 	archivo.close();
-
 }
 
 void modificar(string tipo){
@@ -380,12 +391,12 @@ void modificar(string tipo){
 	cout<<"\n\t-- MODIFICAR MASCOTA --"<<endl;
 		if(tipo =="perro")
 		{
-		listar("perro");
+		listarMascotas("perro");
 	}
 	else
 	{
 		//tipo = "gato";
-		listar("gato");
+		listarMascotas("gato");
 	}
 	cout<<"\nIngrese el codigo de la mascota a modificar: ";
 	cin>>codigo;
@@ -421,17 +432,14 @@ void modificar(string tipo){
 
 			if(N.nCodigo == 0) N.nCodigo == mascota.codigo;
 			fflush(stdin);
+
 			cout<<"\n\nIngrese un nuevo nombre o 'f' para no modificar: ";
 			getline(cin, N.nNombre);
 			fflush(stdin);
 
       if(N.nNombre == "f" || N.nNombre == "F") N.nNombre = mascota.nombre;
 
-			cout<<"\n\nIngrese la nueva fecha o 'f' para no modificar: ";
-			getline(cin, N.nFecha);
-			fflush(stdin);
-
-      if(N.nFecha == "f" || N.nFecha == "F") N.nFecha = mascota.fecha;
+      N.nFecha = mascota.fecha;
 
 			cout<<"\n\nIngrese la nueva raza o 'f' para no modificar: ";
 			getline(cin, N.nRaza);
@@ -456,7 +464,6 @@ void modificar(string tipo){
 
       if(N.nEdad == 0) N.nEdad = mascota.codigo;
 
-			//tempo<<N.nCodigo<<" "<<N.nNombre<<" "<<N.nFecha<<" "<<N.nRaza<<" "<<N.nDistrito<<" "<<N.nSexo<<" "<<mascota.tipo<<" "<<N.nEdad;
 			tempo<<N.nCodigo<<endl;
 			tempo<<N.nNombre<<endl;
 			tempo<<N.nFecha<<endl;
@@ -530,10 +537,10 @@ void adopcion()
 	limpiarPantalla();
 	if(op == '1'){
 		tipo = "perro";
-		listar("perro");
+		listarMascotas("perro");
 	} else {
 		tipo = "gato";
-		listar("gato");
+		listarMascotas("gato");
 	}
 
 	cout<<"\nIngrese el codigo de la mascota que desea adoptar: ";
@@ -554,18 +561,18 @@ void adopcion()
 			cout<<"\n\n\t\t C A R N E T "<<endl;
 
 			if(mascota.edad > 7) {
-				cout<<"\n\nEstado: \tNo factible para dar en adopcion";
+				cout<<"\n\n\tEstado: \tNo factible para dar en adopcion";
 			} else {
-				cout<<"\n\nEstado: \tFactible de dar en adopcion";
+				cout<<"\n\n\tEstado: \tFactible de dar en adopcion";
 			}
 
 			cout<<"\n\tCodigo:            "<<mascota.codigo;
 			cout<<"\n\tNombre:            "<<mascota.nombre;
-			cout<<"\n\tFecha de ingreso:            "<<mascota.fecha;
-			cout<<"\n\tRaza:            "<<mascota.raza;
-			cout<<"\n\tDistrito:            "<<mascota.distrito;
-			cout<<"\n\tSexo:            "<<mascota.sexo;
-			cout<<"\n\tEdad:            "<<mascota.edad;
+			cout<<"\n\tFecha de ingreso:  "<<mascota.fecha;
+			cout<<"\n\tRaza:              "<<mascota.raza;
+			cout<<"\n\tDistrito:          "<<mascota.distrito;
+			cout<<"\n\tSexo:              "<<mascota.sexo;
+			cout<<"\n\tEdad:              "<<mascota.edad;
 			cout<<"\n\n  ///////////////////////////////////////////////////";
 
 			do {
@@ -595,9 +602,7 @@ void adopcion()
 					getch();
 					main();
 				}
-
 			}
-
 			existe = true;
 		}
 		else
@@ -663,7 +668,7 @@ char menuAdoptar(string texto) {
 	return opcion;
 }
 
-void listarV()
+void listarVoluntarios()
 {
   int cont=0;
   ifstream read("voluntariosDB.txt", ios::in);
