@@ -68,18 +68,19 @@ void elegirRol(){
 		cout<<"\n  1. Dar en adopcion"<<endl;
 		cout<<"  2. Adoptar"<<endl;
 		cout<<"  3. Voluntarios"<<endl;
-		//cout<<"  0.Salir"<<endl;
+		cout<<"  0.Salir"<<endl;
 		cout<<"\n  Ingresar opcion: ";
 		cin>>op;
-		if(op != '1' && op != '2' && op != '3')
+		if(op != '1' && op != '2' && op != '3' && op!='0')
 		{
 			cout<<"\n\n  Opcion invalida. Presione una tecla para elegir otra opcion. ";
 			getch();
 		}
 
-	}while(op != '1' && op != '2' && op != '3');
+	}while(op != '1' && op != '2' && op != '3' && op!='0');
 
-	switch(op) {
+	switch(op) 
+	{
 		case '1':
 			menuDarAdopcion();
 			break;
@@ -107,7 +108,7 @@ void elegirRol(){
 		}
 			break;
 		default:
-			cout<<"No se ha encontrado la opción. ";
+			exit(0);
 	}
 
 }
@@ -346,7 +347,11 @@ void listarMascotas(string tipo){
 
 	archivo>>mascota.codigo;
 	if(mascota.codigo == NULL)
+	{
 		cout<<"\n  Aun no hay "<<tipo<<"s en el albergue."<<endl<<endl;
+		getch();
+		elegirRol();
+	}
 
 	while(!archivo.eof())
 	{
