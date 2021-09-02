@@ -790,7 +790,7 @@ void listarVoluntarios()
 }
 void logo()
 {
-		initwindow(600,450,"FISIPETS",200,150);
+	initwindow(600,480,"FISIPETS",200,150);
 	setviewport(0, 0, 800, 500, 1);
 	setbkcolor(COLOR(237, 183, 102)); 
 	clearviewport(); 
@@ -807,6 +807,18 @@ void logo()
 	setcolor(WHITE);
 	settextstyle(3, 0, 3); 
 	outtextxy(210, 365, "A  L  B  E  R  G  U  E");
+	for(int x=240;x < 385;x++)
+	{
+	
+		line(210, 400, x, 400);
+		Sleep(5);
+	}
+	for(int x=210;x < 385;x++)
+	{
+	
+		line(210, 420, x, 400);
+		Sleep(5);
+	}
 }
 
 string saveToTXT(string str)
