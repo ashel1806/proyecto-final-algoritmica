@@ -6,13 +6,10 @@
 #include <windows.h>
 #include <fstream>
 #include <time.h>
+#include <graphics.h>
 #include <iostream>
 
-HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-
 using namespace std;
-
-//Prototipo de funciones a utilizar
 
 //Funciones Principales
 void elegirRol();
@@ -24,6 +21,7 @@ void modificar(string tipo);
 char menuAdoptar(string texto);
 void adopcion();
 void listarVoluntarios();
+void logo();
 
 // void cursorOn(bool visible, DWORD size);
 // void cursorOff();
@@ -51,9 +49,10 @@ struct Recluta {
 
 //Funcion Principal
 int main(){
-  system("mode con: cols=80 lines=30");
-	system("COLOR 70"); //Para cambiar el color de la consola
+  	system("mode con: cols=80 lines=30");
+	system("COLOR E0"); 
 	srand(time(NULL));
+	logo();
 	elegirRol();
 	getch();
 
@@ -100,7 +99,8 @@ void elegirRol(){
 			gotoxy(15, 5); cout<<"V O L U N T A R I O S";
 			gotoxy(3, 9); cout<<"[1] Inscribir voluntarios";
 			gotoxy(3, 10); cout<<"[2] Lista de voluntarios";
-			gotoxy(3, 12); cout<<"Ingresar Opcion: ";
+			gotoxy(3, 11); cout<<"[3] Regresar";
+			gotoxy(3, 13); cout<<"Ingresar Opcion: ";
 			cin>>opcion;
 
 			switch (opcion) {
@@ -110,8 +110,13 @@ void elegirRol(){
 				case 2:
 					listarVoluntarios();
 					break;
+				case 3:
+					elegirRol();
+					break;
 				default:
 					gotoxy(3, 14); cout<<"Opcion no valida.";
+					gotoxy(3, 16);system("pause");
+					elegirRol();
 					break;
 			}
 			break;
@@ -159,7 +164,7 @@ void menuDarAdopcion(){
 
 					if(seguir == 'S' || seguir == 's')
 					{
-						main();
+						elegirRol();
 					}
 					else
 					{
@@ -223,7 +228,7 @@ void reclutar()
 		fflush(stdin);
 
 		do {
-			gotoxy(40, 11); cout<<"                   ";
+			gotoxy(40, 11); cout<<"                                 ";
 			gotoxy(40, 11); cout<<"DNI: ";
 			getline(cin, recluta.dni);
 			fflush(stdin);
@@ -286,7 +291,7 @@ void reclutar()
 	}while (seguir != '2');
 
 	archivo.close();
-	main();
+	elegirRol();
 }
 
 void ingresar(string tipo){
@@ -321,13 +326,13 @@ void ingresar(string tipo){
 		getline(cin, mascota.nombre);
 		fflush(stdin);
 
-		//Inicializando la hora local
-		time_t now = time(0); //Obtener la fecha actual
-		tm* localtm = localtime(&now); //Obtener la fecha de la pc
+		
+		time_t now = time(0); 
+		tm* localtm = localtime(&now); 
 
 		gotoxy(3, 11); cout<<"Fecha de ingreso: "<<asctime(localtm);
 		mascota.fecha = asctime(localtm);
-		//Modificando la ultima linea por un espacio simple
+		
 		int tam = mascota.fecha.length();
 		mascota.fecha[tam-1] = ' ';
 		fflush(stdin);
@@ -366,7 +371,7 @@ void ingresar(string tipo){
 	}while (seguir != '2');
 
 	archivo.close();
-	main();
+	elegirRol();
 }
 
 void listarMascotas(string tipo)
@@ -392,8 +397,8 @@ void listarMascotas(string tipo)
 	if(mascota.codigo == NULL)
 	{
 		gotoxy(3, 9); cout<<"Aun no hay "<<tipo<<"s en el albergue."<<endl<<endl;
-		getch();
-		main();
+		gotoxy(3, 11); system("pause");
+		elegirRol();
 	}
 
 	gotoxy(4, 10); cout<<"Codigo";
@@ -667,7 +672,7 @@ void adopcion()
 					adopcion();
 				}else {
 					getch();
-					main();
+					elegirRol();
 				}
 			}
 			existe = true;
@@ -701,7 +706,7 @@ void adopcion()
 	cin>>seguir;
 
 	if(seguir == 'S' || seguir == 's') {
-		main();
+		elegirRol();
 	}else {
 		exit(0);
 	}
@@ -743,14 +748,17 @@ void listarVoluntarios()
 
 	drawRectangle(3,3, 76, 7);
   gotoxy(15, 5); cout<<"L I S T A   D E   V O L U N T A R I O S";
-
+	if(read.fail()) 
+	{
+		gotoxy(3, 9); cout<<"Ha ocurrido un error al abrir el archivo...";
+	}
 	gotoxy(4, 10); cout<<"N";
   gotoxy(8, 10); cout<<"Nombre";
   gotoxy(20, 10); cout<<"Edad";
   gotoxy(30, 10); cout<<"Genero";
   gotoxy(45, 10); cout<<"N Celular";
 
-	for(int i = 4; i < 50; i++)
+	for(int i = 4; i < 57; i++)
 	{
 		gotoxy(i, 11); printf("%c", 196);
 	}
@@ -772,20 +780,33 @@ void listarVoluntarios()
 		gotoxy(30, y); cout<<recluta.sexo;
 		gotoxy(45, y); cout<<recluta.numero;
 
-		// cout<<"\n\t\tRECLUTA #"<<cont<<endl;
-    // cout<<"\n\t  Nombre:      "<<recluta.nombre<<endl;
-    // cout<<"\t  Edad:        "<<recluta.edad<<endl;
-    // cout<<"\t  Genero:      "<<recluta.sexo<<endl;
-    // cout<<"\t  DNI:         "<<recluta.dni<<endl;
-    // cout<<"\t  Correo:      "<<recluta.correo<<endl;
-    // cout<<"\t  Numero:      "<<recluta.numero<<endl;
-    // cout<<"\t  Direccion:   "<<outputString(recluta.direccion)<<endl<<endl;
     read>>recluta.nombre;
 		y++;
   }
 
   read.close();
-	// elegirRol();
+  	gotoxy(4, y); system("pause");	
+	 elegirRol();
+}
+void logo()
+{
+		initwindow(600,450,"FISIPETS",200,150);
+	setviewport(0, 0, 800, 500, 1);
+	setbkcolor(COLOR(237, 183, 102)); 
+	clearviewport(); 
+	
+	setcolor(RGB(50, 128, 255)); 
+	cleardevice(); 
+	readimagefile("logo.jpg",120,20, 480, 300); 
+	
+
+	setcolor(WHITE);
+	settextstyle(4, 0, 7);
+	outtextxy(75, 290, "FISI PETS");
+	
+	setcolor(WHITE);
+	settextstyle(3, 0, 3); 
+	outtextxy(210, 365, "A  L  B  E  R  G  U  E");
 }
 
 string saveToTXT(string str)
@@ -817,22 +838,6 @@ void limpiarPantalla(){
 		}
 	}
 }
-
-// void cursorOn(bool visible, DWORD size)
-// {
-//   if (size == 0) size = 20;
-
-//   CONSOLE_CURSOR_INFO cursor;
-//   cursor.bVisible =  visible;
-//   cursor.dwSize = size;
-//   SetConsoleCursorInfo(console,&cursor);
-// }
-
-// void cursorOff()
-// {
-//   CONSOLE_CURSOR_INFO cursor = { 1, FALSE };
-//   SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor);
-// }
 
 void gotoxy(int x, int y)
 {
