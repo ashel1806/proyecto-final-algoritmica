@@ -23,10 +23,9 @@ void adopcion();
 void listarVoluntarios();
 void logo();
 
-// void cursorOn(bool visible, DWORD size);
-// void cursorOff();
+
 void gotoxy(int x, int y);
-void drawRectangle(int x1, int y1, int x2, int y2);
+void dibujarRectangulo(int x1, int y1, int x2, int y2);
 
 //Funciones auxiliares
 void limpiarPantalla();
@@ -65,9 +64,9 @@ void elegirRol(){
 	int opcion;
 	do{
 		limpiarPantalla();
-		drawRectangle(1, 1, 78, 29);
-  	drawRectangle(3,3, 76, 7);
-  	gotoxy(15, 5); cout<<"! B I E N V E N I D O    A    F I S I    P E T S !";
+		dibujarRectangulo(1, 1, 78, 29);
+  		dibujarRectangulo(3,3, 76, 7);
+  		gotoxy(15, 5); cout<<"! B I E N V E N I D O    A    F I S I    P E T S !";
 		gotoxy(30, 9); cout<<"-- ELEGIR ACCION --";
 		gotoxy(3, 11); cout<<"[1] Dar en adopcion";
 		gotoxy(3, 12); cout<<"[2] Adoptar una mascota";
@@ -95,7 +94,7 @@ void elegirRol(){
 		case '3':
 		{
 			limpiarPantalla();
-			drawRectangle(3,3, 76, 7);
+			dibujarRectangulo(3,3, 76, 7);
 			gotoxy(15, 5); cout<<"V O L U N T A R I O S";
 			gotoxy(3, 9); cout<<"[1] Inscribir voluntarios";
 			gotoxy(3, 10); cout<<"[2] Lista de voluntarios";
@@ -132,15 +131,16 @@ void menuDarAdopcion(){
 	char seguir;
 	do {
 		limpiarPantalla();
-  	drawRectangle(3,3, 76, 7);
-  	gotoxy(15, 5); cout<<"D A R   E N   A D O P C I O N";
+  		dibujarRectangulo(3,3, 76, 7);
+  		gotoxy(15, 5); cout<<"D A R   E N   A D O P C I O N";
 		gotoxy(3, 10); cout<<"[1] Perro";
 		gotoxy(3, 11); cout<<"[2] Gato";
 		gotoxy(3, 12); cout<<"[3] Volver atras";
 		gotoxy(3, 14); cout<<"Ingresar opcion: ";
 		cin>>op;
 
-		if(op != '1' && op != '2' && op != '3'){
+		if(op != '1' && op != '2' && op != '3')
+		{
 			gotoxy(3, 16); cout<<"Opcion invalida. Presione una tecla para elegir otra opcion. ";
 			getch();
 		}
@@ -210,11 +210,11 @@ void reclutar()
 
 	if(archivo.fail()) cout<<"\nHa ocurrido un eror al abrir el registro de voluntarios...";
 
-	limpiarPantalla();
-	drawRectangle(3,3, 76, 7);
-	gotoxy(15, 5); cout<<"F O R M U L A R I O   D E   I N S C R I P C I O N";
-
 	do {
+		limpiarPantalla();
+		dibujarRectangulo(3,3, 76, 7);
+		gotoxy(15, 5); cout<<"F O R M U L A R I O   D E   I N S C R I P C I O N";
+		
 		fflush(stdin);
 		gotoxy(3, 9); cout<<"Nombre: ";
 		getline(cin, recluta.nombre);
@@ -247,14 +247,14 @@ void reclutar()
 			gotoxy(3, 13); cout<<"Correo electronico: ";
 			getline(cin, recluta.correo);
 
-			if(!regex_match(recluta.correo, regex("^[^@\\s]+@[^@\\s]+\.[^@\\s]+$")))
+			if(!regex_match(recluta.correo, regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")))
 			{
 				gotoxy(3, 15); cout<<"Digite un correo valido por favor.";
 				Sleep(1000);
 				gotoxy(3, 15); cout<<"                                     ";
 			}
 
-		} while(!regex_match(recluta.correo, regex("^[^@\\s]+@[^@\\s]+\.[^@\\s]+$")));
+		} while(!regex_match(recluta.correo, regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")));
 
 		do {
 			gotoxy(3, 15); cout<<"                               ";
@@ -308,13 +308,9 @@ void ingresar(string tipo){
 	  gotoxy(3, 9); cout<<"Ha ocurrido un error al abrir el archivo...";
 	}
 
-	limpiarPantalla();
-	drawRectangle(3,3, 76, 7);
-	gotoxy(15, 5); cout<<"I N G R E S O   DE   "<<text;
-
 	do {
 		limpiarPantalla();
-		drawRectangle(3,3, 76, 7);
+		dibujarRectangulo(3,3, 76, 7);
 		gotoxy(15, 5); cout<<"I N G R E S O   DE   "<<text;
 
 		mascota.codigo = 1000 + rand()%(2001 - 1000);
@@ -327,10 +323,11 @@ void ingresar(string tipo){
 		fflush(stdin);
 
 		
-		time_t t = time(0);   
-		tm* now = localtime(&t);
-		gotoxy(3, 11); cout<<"Fecha de ingreso: "<< now->tm_mday<< '/' << (now->tm_mon + 1) << '/' << (now->tm_year + 1900) ;
-		mascota.fecha = now->tm_mday<< '/' << (now->tm_mon + 1) << '/' << (now->tm_year + 1900) ;
+		time_t now = time(0); 
+		tm* localtm = localtime(&now); 
+
+		gotoxy(3, 11); cout<<"Fecha de ingreso: "<<asctime(localtm);
+		mascota.fecha = asctime(localtm);
 		
 		int tam = mascota.fecha.length();
 		mascota.fecha[tam-1] = ' ';
@@ -389,11 +386,11 @@ void listarMascotas(string tipo)
 		gotoxy(3, 9); cout<<"Hubo un error al abrir el archivo...";
 	}
 
-	drawRectangle(3,3, 76, 7);
+	dibujarRectangulo(3,3, 76, 7);
 	gotoxy(15, 5); cout<<"L I S T A   DE   "<<text;
 
 	archivo>>mascota.codigo;
-	if(mascota.codigo == NULL)
+	if(!mascota.codigo)
 	{
 		gotoxy(3, 9); cout<<"Aun no hay "<<tipo<<"s en el albergue."<<endl<<endl;
 		gotoxy(3, 11); system("pause");
@@ -447,11 +444,14 @@ void modificar(string tipo){
 	archivo.open("mascotasDB.txt", ios::in);
 	tempo.open("tempo.txt", ios::out);
 
-	if(archivo.fail()) gotoxy(3, 9); cout<<"Hubo un error al abrir el archivo...";
-
+	if(archivo.fail())
+	{	
+		gotoxy(3, 9); cout<<"Hubo un error al abrir el archivo...";
+	}
+	
 	limpiarPantalla();
 
-	drawRectangle(3,3, 76, 7);
+	dibujarRectangulo(3,3, 76, 7);
 	gotoxy(15, 5); cout<<"M O D I F I C A R   M A S C O T A";
 
 	tipo == "perro" ? listarMascotas("perro") : listarMascotas("gato");
@@ -472,7 +472,7 @@ void modificar(string tipo){
 
 		if(mascota.tipo == tipo && mascota.codigo == codigo) {
 			limpiarPantalla();
-			drawRectangle(3,3, 76, 7);
+			dibujarRectangulo(3,3, 76, 7);
 			gotoxy(15, 5); cout<<"M O D I F I C A R   M A S C O T A";
 
 			gotoxy(3, 9); cout<<"/// Datos del "<<tipo<<" a modificar ///";
@@ -489,42 +489,42 @@ void modificar(string tipo){
 				string nNombre, nFecha, nRaza, nDistrito, nSexo;
 			} N;
 
-			gotoxy(3, 18); cout<<"Ingrese un nuevo codigo o 0 para no modificar: ";
+			gotoxy(3, 19); cout<<"Ingrese un nuevo codigo o 0 para no modificar: ";
 			cin>>N.nCodigo;
 
 			if(N.nCodigo == 0) N.nCodigo == mascota.codigo;
 			fflush(stdin);
 
-			gotoxy(3, 19); cout<<"Ingrese un nuevo nombre o 'f' para no modificar: ";
+			gotoxy(3, 20); cout<<"Ingrese un nuevo nombre o 'f' para no modificar: ";
 			getline(cin, N.nNombre);
 			fflush(stdin);
 
-      if(N.nNombre == "f" || N.nNombre == "F") N.nNombre = mascota.nombre;
+      		if(N.nNombre == "f" || N.nNombre == "F") N.nNombre = mascota.nombre;
 
-      N.nFecha = mascota.fecha;
+      		N.nFecha = mascota.fecha;
 
-			gotoxy(3, 20); cout<<"\n\nIngrese la nueva raza o 'f' para no modificar: ";
+			gotoxy(3, 21); cout<<"Ingrese la nueva raza o 'f' para no modificar: ";
 			getline(cin, N.nRaza);
 			fflush(stdin);
 
-      if(N.nRaza == "f" || N.nRaza == "F") N.nRaza = mascota.raza;
+      		if(N.nRaza == "f" || N.nRaza == "F") N.nRaza = mascota.raza;
 
-			gotoxy(3, 21); cout<<"Ingrese el nuevo distrito o 'f' para no modificar: ";
+			gotoxy(3, 22); cout<<"Ingrese el nuevo distrito o 'f' para no modificar: ";
 			getline(cin, N.nDistrito);
 			fflush(stdin);
 
-      if(N.nDistrito == "f" || N.nDistrito == "F") N.nDistrito = mascota.distrito;
+      		if(N.nDistrito == "f" || N.nDistrito == "F") N.nDistrito = mascota.distrito;
 
-			gotoxy(3, 22); cout<<"Ingrese el nuevo sexo o 'f' para no modificar: ";
+			gotoxy(3, 23); cout<<"Ingrese el nuevo sexo o 'f' para no modificar: ";
 			getline(cin, N.nSexo);
 			fflush(stdin);
 
-      if(N.nSexo == "f" || N.nSexo == "F") N.nSexo = mascota.sexo;
+      		if(N.nSexo == "f" || N.nSexo == "F") N.nSexo = mascota.sexo;
 
-			gotoxy(3, 23); cout<<"Ingrese la nueva edad o 0 para no modificar: ";
+			gotoxy(3, 24); cout<<"Ingrese la nueva edad o 0 para no modificar: ";
 			cin>>N.nEdad;
 
-      if(N.nEdad == 0) N.nEdad = mascota.codigo;
+      		if(N.nEdad == 0) N.nEdad = mascota.codigo;
 
 			tempo<<N.nCodigo<<endl;
 			tempo<<N.nNombre<<endl;
@@ -560,7 +560,7 @@ void modificar(string tipo){
 	remove("mascotasDB.txt");
 	rename("tempo.txt", "mascotasDB.txt");
 
-	gotoxy(3, 24); cout<<"  Desea ir al menu principal? (S)i/(N)o: "<<endl;
+	gotoxy(3, 25); cout<<"  Desea ir al menu principal? (S)i/(N)o: "<<endl;
 	cin>>seguir;
 
 	if(seguir == 'S' || seguir == 's') elegirRol();
@@ -586,7 +586,7 @@ void adopcion()
 
 	do{
 		limpiarPantalla();
-		drawRectangle(3,3, 76, 7);
+		dibujarRectangulo(3,3, 76, 7);
 		gotoxy(15, 5); cout<<"A D O P T A R   U N A   M A S C O T A";
 		gotoxy(3, 9); cout<<"Elija el tipo de mascota que desee adoptar: ";
 		gotoxy(3, 11); cout<<"[1] Perro"<<endl;
@@ -601,7 +601,7 @@ void adopcion()
 	}while(op != '1' && op != '2');
 
 	limpiarPantalla();
-	drawRectangle(3,3, 76, 7);
+	dibujarRectangulo(3,3, 76, 7);
 
 	if(op == '1')
 	{
@@ -630,8 +630,8 @@ void adopcion()
 		if(mascota.tipo == tipo && mascota.codigo == codigo)
 		{
 			limpiarPantalla();
-			drawRectangle(1, 1, 78, 24);
-  		drawRectangle(3,3, 76, 7);
+			dibujarRectangulo(1, 1, 78, 24);
+  			dibujarRectangulo(3,3, 76, 7);
 			gotoxy(15, 5); cout<<" C A R N E T ";
 
 			if(mascota.edad > 7) {
@@ -648,7 +648,7 @@ void adopcion()
 			gotoxy(3, 21); cout<<"Sexo:               "<<mascota.sexo;
 			gotoxy(3, 23); cout<<"Edad:               "<<mascota.edad;
 
-			drawRectangle(1, 25, 78, 30);
+			dibujarRectangulo(1, 25, 78, 30);
 			do {
 				gotoxy(3, 26); cout<<"Desea adoptar la mascota? (S)i/(N)o: ";
 				cin>>opAdoptar;
@@ -704,9 +704,10 @@ void adopcion()
 	gotoxy(3, 28); cout<<"Desea ir al menu principal? (S)i/(N)o: ";
 	cin>>seguir;
 
-	if(seguir == 'S' || seguir == 's') {
+	if(seguir == 'S' || seguir == 's')
+	{
 		elegirRol();
-	}else {
+	} else {
 		exit(0);
 	}
 }
@@ -720,8 +721,8 @@ char menuAdoptar(string tipo)
 
 	do{
 		limpiarPantalla();
-  	drawRectangle(3,3, 76, 7);
-  	gotoxy(15, 5); cout<<"M E N U   D E   "<<text;
+  		dibujarRectangulo(3,3, 76, 7);
+  		gotoxy(15, 5); cout<<"M E N U   D E   "<<text;
 		gotoxy(3, 9); cout<<"[1] Agregar";
 		gotoxy(3, 10); cout<<"[2] Modificar";
 		gotoxy(3, 11); cout<<"[3] Ver "<<tipo<<"s del albergue";
@@ -740,22 +741,24 @@ char menuAdoptar(string tipo)
 
 void listarVoluntarios()
 {
-  int cont = 0, y = 12;
-  ifstream read("voluntariosDB.txt", ios::in);
+  	int cont = 0, y = 12;
+  	ifstream read("voluntariosDB.txt", ios::in);
 
 	limpiarPantalla();
 
-	drawRectangle(3,3, 76, 7);
-  gotoxy(15, 5); cout<<"L I S T A   D E   V O L U N T A R I O S";
+	dibujarRectangulo(3,3, 76, 7);
+  	gotoxy(15, 5); cout<<"L I S T A   D E   V O L U N T A R I O S";
+	
 	if(read.fail()) 
 	{
 		gotoxy(3, 9); cout<<"Ha ocurrido un error al abrir el archivo...";
 	}
+	
 	gotoxy(4, 10); cout<<"N";
-  gotoxy(8, 10); cout<<"Nombre";
-  gotoxy(20, 10); cout<<"Edad";
-  gotoxy(30, 10); cout<<"Genero";
-  gotoxy(45, 10); cout<<"N Celular";
+  	gotoxy(8, 10); cout<<"Nombre";
+  	gotoxy(20, 10); cout<<"Edad";
+  	gotoxy(30, 10); cout<<"Genero";
+  	gotoxy(45, 10); cout<<"N Celular";
 
 	for(int i = 4; i < 57; i++)
 	{
@@ -763,30 +766,31 @@ void listarVoluntarios()
 	}
 
 	read>>recluta.nombre;
-  while(!read.eof())
-  {
-    cont++;
-    read>>recluta.edad;
-    read>>recluta.sexo;
-    read>>recluta.dni;
-    read>>recluta.correo;
-    read>>recluta.numero;
-    read>>recluta.direccion;
-
+	while(!read.eof())
+	{
+	    cont++;
+	    read>>recluta.edad;
+	    read>>recluta.sexo;
+	    read>>recluta.dni;
+	    read>>recluta.correo;
+	    read>>recluta.numero;
+	    read>>recluta.direccion;
+	
 		gotoxy(4, y); cout<<cont;
 		gotoxy(8, y); cout<<recluta.nombre;
 		gotoxy(20, y); cout<<recluta.edad;
 		gotoxy(30, y); cout<<recluta.sexo;
 		gotoxy(45, y); cout<<recluta.numero;
-
-    read>>recluta.nombre;
+	
+	    read>>recluta.nombre;
 		y++;
-  }
+	}
 
-  read.close();
+  	read.close();
   	gotoxy(4, y); system("pause");	
-	 elegirRol();
+	elegirRol();
 }
+
 void logo()
 {
 	initwindow(600,480,"FISIPETS",200,150);
@@ -860,7 +864,7 @@ void gotoxy(int x, int y)
   SetConsoleCursorPosition(hcon,dwPos);
 }
 
-void drawRectangle(int x1, int y1, int x2, int y2)
+void dibujarRectangulo(int x1, int y1, int x2, int y2)
 {
   int i;
   for(i = x1; i < x2; i++)
