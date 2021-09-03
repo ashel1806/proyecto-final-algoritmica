@@ -728,18 +728,16 @@ void adopcion()
     cout << "[1] Perro" << endl;
     gotoxy(3, 12);
     cout << "[2] Gato" << endl;
-    gotoxy(3, 13);
-    cout << "[3] Volver atras" << endl;
-    gotoxy(3, 15);
+    gotoxy(3, 14);
     cout << "Ingrese una opcion: ";
     cin >> op;
 
-    if (op != '1' && op != '2' && op != '3')
+    if (op != '1' && op != '2')
     {
       gotoxy(3, 16);
       cout << "\nOpcion invalida. Ingrese otra.";
     }
-  } while (op != '1' && op != '2' && op != '3');
+  } while (op != '1' && op != '2');
 
   limpiarPantalla();
   dibujarRectangulo(3, 3, 76, 7);
@@ -751,16 +749,12 @@ void adopcion()
     cout << "A D O P T A R   U N   P E R R O";
     listarMascotas("perro");
   }
-	if (op == '2')
+  else
   {
     tipo = "gato";
     gotoxy(25, 5);
     cout << "A D O P T A R   U N   G A T O";
     listarMascotas("gato");
-  }
-	if (op == '3')
-  {
-	elegirRol();
   }
   gotoxy(3, 8);
   cout << "Ingrese el codigo de la mascota que desea adoptar: ";
@@ -1086,9 +1080,9 @@ void dibujarRectangulo(int x1, int y1, int x2, int y2)
   }
 
   gotoxy(x1, y1);
-	printf("%c", 218);
+  printf("%c", 218);
   gotoxy(x1, y2);
-	printf("%c", 192);
+  printf("%c", 192);
   gotoxy(x2, y1);
   printf("%c", 191);
   gotoxy(x2, y2);
