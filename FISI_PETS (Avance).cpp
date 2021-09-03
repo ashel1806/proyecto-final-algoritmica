@@ -327,11 +327,10 @@ void ingresar(string tipo){
 		fflush(stdin);
 
 		
-		time_t now = time(0); 
-		tm* localtm = localtime(&now); 
-
-		gotoxy(3, 11); cout<<"Fecha de ingreso: "<<asctime(localtm);
-		mascota.fecha = asctime(localtm);
+		time_t t = time(0);   
+		tm* now = localtime(&t);
+		gotoxy(3, 11); cout<<"Fecha de ingreso: "<< now->tm_mday<< '/' << (now->tm_mon + 1) << '/' << (now->tm_year + 1900) ;
+		mascota.fecha = now->tm_mday<< '/' << (now->tm_mon + 1) << '/' << (now->tm_year + 1900) ;
 		
 		int tam = mascota.fecha.length();
 		mascota.fecha[tam-1] = ' ';
