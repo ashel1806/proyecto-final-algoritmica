@@ -12,3 +12,7 @@
     <li>Facilitar el proceso de adopción</li>
   </ul>
 </div>
+
+#
+
+El programa utiliza la libreria <code>graphics.h</code>, la cual puede ser instalada en [Dev C++](https://www.youtube.com/watch?v=X1zOKh4ONW8) o en [VS Code](https://github.com/ullaskunder3/Solution-to-graphics.h)
