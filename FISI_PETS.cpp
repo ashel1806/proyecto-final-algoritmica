@@ -190,6 +190,7 @@ void menuDarAdopcion()
       listarMascotas("perro");
       gotoxy(3, 27);
       cout << "  Desea ir al menu principal? (S)i/(N)o: ";
+      gotoxy(3, 28);
       cin >> seguir;
 
       if (seguir == 'S' || seguir == 's')
@@ -216,8 +217,9 @@ void menuDarAdopcion()
     if (opcion == '3')
     {
       listarMascotas("gato");
+      gotoxy(3, 27);
       cout << "  Desea ir al menu principal? (S)i/(N)o: " << endl;
-      cout << "\nOpcion: ";
+      gotoxy(3, 28);
       cin >> seguir;
 
       if (seguir == 'S' || seguir == 's')
@@ -522,10 +524,10 @@ void listarMascotas(string tipo)
       cout << mascota.sexo;
       gotoxy(68, y);
       cout << mascota.edad;
+      y++;
     }
 
     archivo >> mascota.codigo;
-    y++;
   }
 
   archivo.close();
@@ -608,7 +610,7 @@ void modificar(string tipo)
       cin >> N.nCodigo;
 
       if (N.nCodigo == 0)
-        N.nCodigo == mascota.codigo;
+        N.nCodigo = mascota.codigo;
       fflush(stdin);
 
       gotoxy(3, 20);
@@ -689,7 +691,8 @@ void modificar(string tipo)
   rename("tempo.txt", "mascotasDB.txt");
 
   gotoxy(3, 25);
-  cout << "  Desea ir al menu principal? (S)i/(N)o: " << endl;
+  cout << "  Desea ir al menu principal? (S)i/(N)o: ";
+  gotoxy(3, 26);
   cin >> seguir;
 
   if (seguir == 'S' || seguir == 's')
@@ -728,16 +731,18 @@ void adopcion()
     cout << "[1] Perro" << endl;
     gotoxy(3, 12);
     cout << "[2] Gato" << endl;
-    gotoxy(3, 14);
+    gotoxy(3, 13);
+    cout << "[3] Volver atras" << endl;
+    gotoxy(3, 15);
     cout << "Ingrese una opcion: ";
     cin >> op;
 
-    if (op != '1' && op != '2')
+    if (op != '1' && op != '2' && op != '3')
     {
       gotoxy(3, 16);
       cout << "\nOpcion invalida. Ingrese otra.";
     }
-  } while (op != '1' && op != '2');
+  } while (op != '1' && op != '2' && op != '3');
 
   limpiarPantalla();
   dibujarRectangulo(3, 3, 76, 7);
@@ -749,12 +754,16 @@ void adopcion()
     cout << "A D O P T A R   U N   P E R R O";
     listarMascotas("perro");
   }
-  else
+	if (op == '2')
   {
     tipo = "gato";
     gotoxy(25, 5);
     cout << "A D O P T A R   U N   G A T O";
     listarMascotas("gato");
+  }
+	if (op == '3')
+  {
+	elegirRol();
   }
   gotoxy(3, 8);
   cout << "Ingrese el codigo de la mascota que desea adoptar: ";
